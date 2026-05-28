@@ -25,6 +25,8 @@ function walk(dir) {
     if (s.isDirectory()) {
       walk(p);
     } else {
+      // Skip server-only files (.server.ts/.tsx) — never bundled to the client.
+      if (/\.server\.(ts|tsx|js|jsx|mjs|cjs)$/.test(p)) continue;
       const dot = p.lastIndexOf(".");
       if (dot < 0 || !EXTS.has(p.slice(dot))) continue;
       const lines = readFileSync(p, "utf8").split("\n");
